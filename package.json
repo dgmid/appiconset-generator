@@ -1,0 +1,41 @@
+{
+  "name": "appiconset-generator",
+  "version": "1.0.0",
+  "productName": "Appiconset Generator",
+  "description": "A utility app for generating Apple appiconsets.",
+  "main": "dist/js/main.min.js",
+  "scripts": {
+    "package": "npm prune -production; electron-packager . --electron-version=4.0.8 --overwrite --platform=darwin --arch=x64 --icon=dist/assets/icon/icon.icns --ignore=\"app-source|gulpfile\\.js|README\\.md\" --prune=false --out=build"
+  },
+  "author": {
+    "name": "D.G Midwinter",
+    "email": "duncan@midwinter-dg.com",
+    "url": "https://www.midwinter-dg.com"
+  },
+  "homepage": "https://www.midwinter-dg.com/mac-apps/appiconset-generator.html",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dgmid/appiconset-generator"
+  },
+  "dependencies": {
+    "electron-sharp": "^0.20.8",
+    "electron-store": "^2.0.0",
+    "fs-extra": "^7.0.1",
+    "jquery": "^3.3.1",
+    "load-json-file": "^5.2.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-iconutil": "^1.2.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-uglify-es": "^1.0.4",
+    "pump": "^3.0.0",
+    "reset-css": "^4.0.1"
+  }
+}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Appiconset Generator</title>
+	<link rel="stylesheet" type="text/css" href="../css/app.min.css" media="all">
+</head>
+<body>
+	<main>
+		<header>
+			<h1>Appiconset Generator</h1>
+		</header>
+		
+		<section class="icon-view">
+			<canvas id="icon" width="1024" height="1024"></canvas>
+			<div id="dropzone"></div>
+			<mark id="size"></mark>
+		</section>
+		
+		<div class="form">
+			<canvas id="preview" class="preview" width="256" height="256"></canvas>
+			<button type="submit" id="generate" disabled>Generate Appiconset</button>
+		</div>
+	</main>
+	<script>
+		require( '../js/app.min' )
+	</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+
+body {
+	
+	background: transparent url('#{$back}') repeat left 40px top 47px;
+}
+
+header {
+	
+	-webkit-app-region: drag;
+	
+	text-align: center;
+	height: 47px;
+	
+	h1 {
+		
+		font-size: 13px;
+		font-weight: 500;
+		line-height: 34px;
+	}
+}
+
+main {
+	
+	width: 820px;
+	height: 620px;
+	background: transparent url('#{$window}') no-repeat left top;
+	
+	.icon-view {
+		
+		width: 532px;
+		height: 558px;
+		margin-left: 40px;
+		float: left;
+		position: relative;
+		
+		#size {
+			
+			display: block;
+			position: absolute;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			
+			color: rgba($text, .35);
+			text-align: center;
+			font-family: 'Menlo', monospace;
+			font-size: 11px;
+			font-weight: 200;
+			background-color: transparent;
+			
+			&.alert {
+				
+				color: #E14540;
+				
+				&::before {
+					
+					content: '';
+					display: inline-block;
+					width: 14px;
+					height: 13px;
+					vertical-align: -1px;
+					margin-right: 5px;
+					background: url('#{$alert}') no-repeat center;
+				}
+			}
+		}
+	
+		#icon {
+			
+			width: 512px;
+			height: 512px;
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			z-index: 0;
+		}
+		
+		#dropzone {
+			
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 532px;
+			height: 532px;
+			border-radius: 10px;
+			background-image: none;
+			background-repeat: no-repeat;
+			background-position: center center;
+			opacity: 0;
+			z-index: 1;
+			transition: opacity .15s ease-in-out;
+			
+			&.hover {
+				
+				background-image: url('#{$drop}');
+				opacity: .8;
+			}
+		}
+	}
+	
+	.form {
+		
+		padding: 0 30px 0 20px;
+		width: 248px;
+		height: 532px;
+		float: right;
+		
+		font-weight: 600;
+		
+		position: relative;
+		
+		label {
+			
+			display: block;
+			font-size: 13px;
+			padding-bottom: 10px;
+			
+			&:not(:first-of-type) {
+			
+				padding-top: 10px;
+				border-top: 1px solid rgba($light, .15);
+			}
+			
+			input { border-radius: 50%; }
+		}
+		
+		table {
+			
+			display: none;
+			width: 80%;
+			margin: 5px 0  5px 18px;
+			font-family: 'Menlo', monospace;
+			font-size: 11px;
+			line-height: 11px;
+			color: #01F952;
+			position: relative;
+			
+			td {
+				
+				padding: 2px 4px;
+				
+				&:last-child { color: $iconres; }
+			}
+		}
+		
+		.preview {
+			
+			width: 128px;
+			height: 128px;
+			
+			position: absolute;
+			bottom: 60px;
+			left: 54px;
+			
+			&.active {
+				
+				outline: 1px dashed rgba($focus, .5);
+			}
+		}
+		
+		#sizes {
+			
+			width: 256px;
+		}
+		
+		datalist {
+			
+			display: flex;
+			justify-content: space-between;
+			
+			option {
+				
+				font-size: 10px;
+			}
+		}
+		
+		#generate {
+			
+			display: block;
+			width: 196px;
+			height: 30px;
+			position: absolute;
+			bottom: 0;
+			
+			background: $background;
+			border: 1px solid rgba($text , .3);
+			border-radius: 4px;
+			font-size: 14px;
+			color: $text;
+			font-weight: 500;
+			text-align: center;
+			
+			transition: all .15s ease-in-out;
+			
+			&[disabled] { 	color: rgba($text , .3); }
+			
+			&:hover:not([disabled]) { background-color: rgba($text, .1); }
+			
+			&:active:not([disabled]) {
+				
+				background-color: darken($background, 3%);
+				box-shadow: inset 0 2px 4px darken($background, 6%);
+				outline: none;
+			}
+		}
+	}
+}
+
+:focus {
+	
+	outline: none;
+	box-shadow: 0 0 1px 2px rgba($focus, .75);
+}

@@ -1,0 +1,23 @@
+
+$text: 			#fff;
+$background: 	#031320;
+$light: 		#fff;
+$dark: 			#b6b6b6;
+$transparency: 	.2;
+$focus:			#34C0F9;
+$warning:		#FDBF30;
+$iconsize:		#01F952;
+$iconres:		#7F37C5;
+
+@mixin clearfix {
+	
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+	
+	&:after {
+		clear: both;
+	}
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Appiconset Generator - Preferences</title>
+		<link rel="stylesheet" type="text/css" href="../css/modal.min.css" media="all">
+	</head>
+	
+	<body>
+		<header>
+			Preferences
+		</header>
+		
+		<main>
+			<section>
+				<label for="interpolation">Image interpolation algorithm</label>
+				<select id="interpolation" name="interpolation" tabindex="1">
+					<option value="nearest">Nearest Neighbour</option>
+					<option value="cubic">Cubic (Catmull–Rom spline)</option>
+					<option value="mitchell">Mitchell-Netravali spline</option>
+					<option value="lanczos2">Lanczos a=2</option>
+					<option value="lanczos3">Lanczos a=3</option>
+				</select>
+			</section>
+		</main>
+		
+		<footer>
+			<button type="button" id="close" tabindex="2">Close</button>
+		</footer>
+			
+		<script>
+			require( '../js/prefs.min' )
+		</script>
+	</body>
+</html>
