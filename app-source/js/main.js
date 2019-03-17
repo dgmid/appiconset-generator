@@ -1,7 +1,7 @@
 'use strict'
 
 const { app, BrowserWindow, TouchBar, ipcMain } = require( 'electron' )
-const { TouchBarLabel, TouchBarButton, TouchBarSpacer } = TouchBar
+const { TouchBarButton, TouchBarSpacer } = TouchBar
 
 const url 		= require( 'url' ) 
 const path 		= require( 'path' )
