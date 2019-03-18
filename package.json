@@ -5,7 +5,7 @@
   "description": "A utility app for generating Apple appiconsets.",
   "main": "dist/js/main.min.js",
   "scripts": {
-    "package": "npm prune -production; electron-packager . --electron-version=4.0.8 --overwrite --platform=darwin --arch=x64 --icon=dist/assets/icon/icon.icns --ignore=\"app-source|gulpfile\\.js|README\\.md\" --prune=false --out=build"
+    "package": "npm prune -production; electron-packager . --electron-version=4.1.0 --overwrite --platform=darwin --arch=x64 --icon=dist/assets/icon/icon.icns --ignore=\"app-source|gulpfile\\.js|README\\.md\" --prune=false --out=build --darwinDarkModeSupport=true"
   },
   "author": {
     "name": "D.G Midwinter",

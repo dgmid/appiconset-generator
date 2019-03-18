@@ -40,7 +40,7 @@ npm install
 
 then run
 ```shell
-electron rebuild
+electron-rebuild
 ```
 
 To modify the `html` / `css` / `js` run:
