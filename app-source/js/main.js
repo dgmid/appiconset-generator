@@ -1,23 +1,32 @@
 'use strict'
 
 const { app, BrowserWindow, TouchBar, ipcMain } = require( 'electron' )
-const { TouchBarButton, TouchBarSpacer } = TouchBar
+const { TouchBarButton, TouchBarSpacer, TouchBarSegmentedControl } = TouchBar
 
 const url 		= require( 'url' ) 
 const path 		= require( 'path' )
 const fs 		= require( 'fs-extra' )
-const sharp 	= require( 'electron-sharp' )
+const sharp 		= require( 'electron-sharp' )
 const dialog 	= require( 'electron' ).dialog
-const Store 	= require( 'electron-store' )
+const Store 		= require( 'electron-store' )
 const util 		= require( 'util' )
 const loadJSON 	= require( 'load-json-file' )
 
+
+
 let win,
+	modal,
 	tempString,
 	appIdentifier = 'com.midwinter-dg.' + app.getName().toLowerCase().replace(' ', '-'),
 	tempDir = app.getPath( 'temp' ) + `${appIdentifier}/`,
-	touchBar,
-	buttons = []
+	touchBar1,
+	touchBar2,
+	prefsTouchBar,
+	group,
+	groupPrefs,
+	buttons = [],
+	generate = [],
+	prefsButtons = []
 
 
 
@@ -29,8 +38,8 @@ let store = new Store({
 			y: 0
 		},
 		
-		iconType: 		'macOS',
-		interpolation: 'lanczos3',
+		iconType: 		0,
+		interpolation: 	'lanczos3',
 		savePath: 		app.getPath( 'desktop' )
 	}
 })
@@ -89,8 +98,8 @@ function createWindow() {
 	
 }
 
-
 app.on( 'ready', createWindow )
+
 
 
 function empty() {
@@ -103,6 +112,8 @@ function empty() {
 		}
 	})
 }
+
+
 
 app.on( 'open', ( message ) => {
 	
@@ -136,29 +147,39 @@ app.on( 'open', ( message ) => {
 
 ipcMain.on( 'touchbar', ( event, message ) => {
 	
-	for ( let type of message ) {
+	let segments = [],
+		spacer,
+		count = 0,
+		selected = 0
 	
-		buttons.push(
-			
-			new TouchBarButton({
-			
-				label: type,
-				backgroundColor: '#7F37C5',
-				click: () => {
-				
-					win.webContents.send( 'touch', type )
-				}
-			})
-		)
+	for ( let item of message ) {
+		
+		segments.push({ label: item.type })
+		
+		if( item.state ) selected = count
+		
+		count++
 	}
 	
-	buttons.push(
+	spacer 	= new TouchBarSpacer({ size: 'small' })
+	group 	= new TouchBarSegmentedControl({
 		
-		new TouchBarSpacer({ size: 'small' })
-	)
+		segmentStyle: 'separated',
+		mode: 'single',
+		segments: segments,
+		selectedIndex: selected,
+		change: ( selectedIndex ) => {
+			
+			win.webContents.send( 'touchbar-select', selectedIndex )
+		}
+	})
 	
+	buttons.push( group )
+	generate.push( group )
+	buttons.push( spacer )
+	generate.push( spacer )
 	
-	buttons.push(
+	generate.push(
 	
 		new TouchBarButton({
 			
@@ -166,15 +187,21 @@ ipcMain.on( 'touchbar', ( event, message ) => {
 			backgroundColor: '#3B88FD',
 			click: () => {
 				
-				win.webContents.send('menu-generate', 'generate')
+				win.webContents.send( 'menu-generate', 'generate' )
 			}
 		})
 	)
 	
-	touchBar = new TouchBar( buttons )
-	
-	win.setTouchBar( touchBar )
+	touchBar1 = new TouchBar( buttons )
+	win.setTouchBar( touchBar1 )
 })
+
+
+ipcMain.on( 'touchbar-index', ( event, message ) => {
+	
+	group.selectedIndex = message
+})
+
 
 
 ipcMain.on( 'size', ( event, message ) => {
@@ -211,6 +238,9 @@ ipcMain.on( 'valid', ( event, message ) => {
 			}
 			
 			win.webContents.send( 'preview', `${tempDir}/${tempString}.png` )
+			
+			touchBar2 = new TouchBar( generate )
+			win.setTouchBar( touchBar2 )
 		})	
 	})
 })
@@ -293,6 +323,14 @@ ipcMain.on( 'generate', ( event, message ) => {
 
 
 
+ipcMain.on( 'deleted', ( event, message ) => {
+	
+	touchBar1 = new TouchBar( buttons )
+	win.setTouchBar( touchBar1 )
+})
+
+
+
 function saveIconsetToPath( message ) {
 	
 	let savePath =  store.get( 'savePath' )
@@ -317,3 +355,98 @@ function saveIconsetToPath( message ) {
 		}
 	)
 }
+
+
+
+app.on( 'open-prefs', (message) => {
+	
+	let ind
+	
+	switch( store.get( 'interpolation' ) ) {
+		
+		case 'cubic': 		ind = 1
+		break;
+		
+		case 'mitchell': 	ind = 2
+		break;
+		
+		case 'lanczos2': 	ind = 3
+		break;
+		
+		case 'lanczos3': 	ind = 4
+		break;
+		
+		default: 			ind = 0
+	}
+	
+	groupPrefs = new TouchBarSegmentedControl({
+	
+		segmentStyle: 'separated',
+		mode: 'single',
+		segments: [
+			{ label: 'Nearest Neighbour' },
+			{ label: 'Cubic' },
+			{ label: 'Mitchell' },
+			{ label: 'Lanczos a=2' },
+			{ label: 'Lanczos a=3' }
+		],
+		selectedIndex: ind,
+		change: ( selectedIndex ) => {
+			
+			modal.webContents.send( 'prefs-select', selectedIndex )
+		}
+	})
+	
+	prefsButtons.push( groupPrefs )
+	
+	prefsButtons.push(
+		
+		new TouchBarButton({
+			
+			label: 'Close',
+			backgroundColor: '#3B88FD',
+			click: () => {
+				
+				modal.close()
+			}
+		})
+	)
+	
+	prefsTouchBar = new TouchBar( prefsButtons )
+	
+	modal = new BrowserWindow({
+	
+		parent: win,
+		modal: true,
+		width: 360,
+		minWidth: 360,
+		maxWidth: 360,
+		height: 230,
+		minHeight: 230,
+		resizable: false,
+		show: false,
+		backgroundColor: '#031320',
+		webPreferences: { devTools: false }
+	})
+	
+	modal.loadURL(url.format ({ 
+		
+		pathname: path.join(__dirname, '/../html/prefs.html'), 
+		protocol: 'file:', 
+		slashes: true 
+	}))
+	
+	modal.setTouchBar( prefsTouchBar )
+	
+	modal.once('ready-to-show', () => {
+		
+		modal.show()
+	})
+})
+
+
+
+ipcMain.on( 'prefs-change', ( event, message ) => {
+	
+	groupPrefs.selectedIndex = parseInt(message)
+})

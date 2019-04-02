@@ -108,9 +108,9 @@ function loadImage( src ) {
 
 function setType( type ) {
 	
-	$('input[name="type"][value="' + type + '"]').prop('checked', true)
+	$('input[name="type"][value="' + type + '"]').prop('checked', true).focus()
 	$('.form table').hide()
-	$(`table.${type}`).show('fast')
+	$(`table.icon-${type}`).show('fast')
 }
 
 
@@ -159,7 +159,7 @@ dropzone.on('drop', function(e) {
 
 //note(@duncanmid): action on touch
 
-ipcRenderer.on('touch', (event, message) => {
+ipcRenderer.on('touchButton', (event, message) => {
 	
 	if( $('input[name="type"]:checked').val() !== message ) {
 	
@@ -171,10 +171,20 @@ ipcRenderer.on('touch', (event, message) => {
 
 
 
+ipcRenderer.on('touchbar-select', (event, message) => {
+	
+	setType( message )
+	store.set( 'iconType', message )
+})
+
+
+
 ipcRenderer.on('delete', (event, message) => {
 	
 	clearCanvas()
 	$('#generate').prop('disabled', true)
+	
+	ipcRenderer.send('deleted', 'deleted' )
 })
 
 
@@ -204,22 +214,13 @@ ipcRenderer.on('preview', (event, message) => {
 
 
 
-//note(@duncanmid): prefs modal
-
-ipcRenderer.on('open-prefs', (event, message) => {
-	
-	openModal( 'file://' + __dirname + '/../html/prefs.html', 360, 230, false )
-})
-
-
-
 //note(@duncanmid): generate .iconset
 
 ipcRenderer.on('menu-generate', (event, message) => {
 	
 	if( !$('#generate').prop('disabled') ) {
 	
-		ipcRenderer.send('generate', $('input[name="type"]:checked').val() )
+		ipcRenderer.send('generate', $('input[name="type"]:checked').data( 'name' ) )
 	}
 })
 
@@ -227,14 +228,14 @@ ipcRenderer.on('menu-generate', (event, message) => {
 
 $('#generate').click( function() { 
 	
-	ipcRenderer.send('generate', $('input[name="type"]:checked').val() )
+	ipcRenderer.send('generate', $('input[name="type"]:checked').data( 'name' ) )
 })
 
 
 
 //note(@duncanmid): modal
 
-function openModal( url, width, height, resize ) {
+/* function openModal( url, width, height, resize ) {
 	
 	modal = new remote.BrowserWindow({
 		
@@ -256,7 +257,7 @@ function openModal( url, width, height, resize ) {
 		
 		modal.show()
 	})
-}
+} */
 
 
 
@@ -264,17 +265,28 @@ function openModal( url, width, height, resize ) {
 
 $( document ).ready( function() {
 	
+	let active = store.get( 'iconType' )
+	
 	loadJSON( path.join(__dirname, '../json/iconsets.json') ).then(json => {
 		
-		let buttons = []
+		let buttons 	= [],
+			count 	= 0
 		
 		for ( let type in json ) {
 			
-			let iconlist = []
+			let iconlist = [],
+				state = (count == active) ? true : false;
 			
-			buttons.push( type )
+			//todo(@duncanmid): send as object with state
+			//buttons.push( type )
 			
-			$('.form').append( `<label><input type="radio" name="type" value="${type}" /> ${type}<table class="${type}"></table></label>` )
+			buttons.push({
+				
+				'type': type,
+				'state': state
+			})
+			
+			$('.form').append( `<label><input type="radio" name="type" value="${count}" data-name="${type}" /> ${type}<table class="icon-${count}"></table></label>` )
 			
 			for ( let icon of json[type] ) {
 				
@@ -283,13 +295,14 @@ $( document ).ready( function() {
 				if ( iconlist.includes( row ) === false ) {
 					
 					iconlist.push( row )
-					$( `table.${type}` ).append( row )
+					$( `table.icon-${count}` ).append( row )
 				}
 			}
+			
+			count++
 		}
 		
-		let type = store.get( 'iconType' )
-		setType( type )
+		setType( active )
 		
 		ipcRenderer.send( 'touchbar', buttons )
 	})
@@ -298,8 +311,9 @@ $( document ).ready( function() {
 	$('body').on('click', 'input[name="type"]', function() {
 		
 		$( '.form table' ).hide()
-		$( `table.${$(this).val()}` ).show( 'fast' )
+		$( `.icon-${$(this).val()}` ).show( 'fast' )
 		
-		store.set( 'iconType', $(this).val() )
+		ipcRenderer.send('touchbar-index',  Number( $(this).val() ) )
+		store.set( 'iconType', Number( $(this).val() ) )
 	})
 })

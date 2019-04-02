@@ -1,11 +1,11 @@
 'use strict'
 
-const electron = require('electron')
-const {Menu, shell} = require('electron')
-const app = electron.app
-const BrowserWindow = electron.BrowserWindow
-const name = app.getName()
-var about = require('./about.min')
+const electron 			= require('electron')
+const {Menu, shell} 		= require('electron')
+const app 				= electron.app
+const BrowserWindow 		= electron.BrowserWindow
+const name 				= app.getName()
+var about 				= require('./about.min')
 
 
 
@@ -23,7 +23,7 @@ const template = [
 			{
 				label: 'Preferences…',
 				accelerator: 'Command+,',
-				click (item, focusedWindow) { if(focusedWindow) focusedWindow.webContents.send('open-prefs') }
+				click () { app.emit('open-prefs', '') }
 			},
 			{
 				type: 'separator'

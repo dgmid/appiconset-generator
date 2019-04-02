@@ -1,37 +1,38 @@
 'use strict'
 
-const {ipcRenderer} 	= require( 'electron' )
+const {ipcRenderer} 		= require( 'electron' )
 const remote 			= require( 'electron' ).remote
-const Store 			= require( 'electron-store' )
-const store 			= new Store()
-const $ 				= require( 'jquery' )
+const Store 				= require( 'electron-store' )
+const store 				= new Store()
+const $ 					= require( 'jquery' )
 
 
 
-//note(@duncanmid): close modal
-
-function closeModal() {
+ipcRenderer.on( 'prefs-select', ( event, message ) => {
 	
-	const modal = remote.getCurrentWindow()
-	modal.close()
-}
+	$( '#interpolation' ).val( message )
+	
+	store.set( 'interpolation', $( '#interpolation' ).find( ':selected' ).data( 'int' ) )
+})
 
 
 
 $( document ).ready( function() {
 	
-	$( '#interpolation' ).val( store.get( 'interpolation' ) )
+	let selected = store.get( 'interpolation' )
 	
+	$( `#interpolation option[data-int="${selected}"]` ).prop( 'selected', true )
 	
 	$( '#interpolation' ).on( 'change', function() {
 		
-		store.set( 'interpolation', $( this ).val() )
+		ipcRenderer.send( 'prefs-change', $( this ).val() )
+		store.set( 'interpolation', $( this ).data( 'int' ) )
 	})
 	
-	//note(@duncanmid): cancel modal
 	
 	$( '#close' ).click( function() {
 		
-		closeModal()
+		const modal = remote.getCurrentWindow()
+		modal.close()
 	})
 })
