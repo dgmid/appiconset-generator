@@ -11,13 +11,13 @@ You can choose the image interpolation algorithm used from:
 - Lanczos a=3
 
 ## Main Window
-![appiconset-generator](https://user-images.githubusercontent.com/1267580/54089467-6cf2f680-4369-11e9-8cba-a6863358193f.png)
+![appiconset-generator](https://user-images.githubusercontent.com/1267580/59580720-8fb44a00-90d2-11e9-94bd-c1a3fe175466.png)
 
 ## Touch Bar
 
 Appicionset Generator has support for the Touch Bar
 
-![appiconset-generator-touchbar](https://user-images.githubusercontent.com/1267580/54089466-6cf2f680-4369-11e9-9ae4-b8eab03f38ae.png)
+![appiconset-generator-touchbar](https://user-images.githubusercontent.com/1267580/59580724-904ce080-90d2-11e9-9502-33f4910aeeff.png)
 
 ## Requirements
 
