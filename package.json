@@ -1,6 +1,6 @@
 {
   "name": "appiconset-generator",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "productName": "Appiconset Generator",
   "description": "A utility app for generating Apple appiconsets.",
   "main": "dist/js/main.min.js",
@@ -22,17 +22,17 @@
   },
   "dependencies": {
     "electron-sharp": "^0.20.8",
-    "electron-store": "^3.2.0",
+    "electron-store": "^3.3.0",
     "fs-extra": "^8.0.1",
-    "i18next": "^15.1.2",
+    "i18next": "^17.0.3",
     "i18next-electron-language-detector": "0.0.10",
     "jquery": "^3.4.1",
     "jquery-i18next": "^1.2.1",
-    "load-json-file": "^6.0.0"
+    "load-json-file": "^6.1.0"
   },
   "devDependencies": {
-    "electron": "^4.2.2",
-    "electron-rebuild": "^1.8.4",
+    "electron": "^4.2.4",
+    "electron-rebuild": "^1.8.5",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-cssnano": "^2.1.3",

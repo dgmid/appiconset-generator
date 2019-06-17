@@ -1,7 +1,7 @@
 
 body {
 	
-	background: transparent url('#{$back}') repeat left 40px top 47px;
+	background: transparent var(--grid) repeat left 40px top 47px;
 }
 
 header {
@@ -9,13 +9,19 @@ header {
 	-webkit-app-region: drag;
 	
 	text-align: center;
-	height: 47px;
+	height: 23px;
+	margin-bottom: 24px;
+	
+	background: var(--header);
+	background-size: 100% 23px;
+	background-position: left top;
+	border-bottom: 1px solid var(--header-border);
 	
 	h1 {
 		
 		font-size: 13px;
 		font-weight: 500;
-		line-height: 34px;
+		line-height: 22px;
 	}
 }
 
@@ -23,7 +29,7 @@ main {
 	
 	width: 820px;
 	height: 620px;
-	background: transparent url('#{$window}') no-repeat left top;
+	background: transparent var(--window) no-repeat left top;
 	
 	.icon-view {
 		
@@ -41,7 +47,7 @@ main {
 			right: 0;
 			bottom: 0;
 			
-			color: rgba($text, .35);
+			color: var(--text);
 			text-align: center;
 			font-family: 'Menlo', monospace;
 			font-size: 11px;
@@ -50,7 +56,7 @@ main {
 			
 			&.alert {
 				
-				color: #E14540;
+				color: var(--text);
 				
 				&::before {
 					
@@ -60,7 +66,7 @@ main {
 					height: 13px;
 					vertical-align: -1px;
 					margin-right: 5px;
-					background: url('#{$alert}') no-repeat center;
+					background: var(--alert) no-repeat center;
 				}
 			}
 		}
@@ -92,7 +98,7 @@ main {
 			
 			&.hover {
 				
-				background-image: url('#{$drop}');
+				background-image: var(--drop);
 				opacity: .8;
 			}
 		}
@@ -118,7 +124,7 @@ main {
 			&:not(:first-of-type) {
 			
 				padding-top: 10px;
-				border-top: 1px solid rgba($light, .15);
+				border-top: 1px solid var(--line);
 			}
 			
 			input { border-radius: 50%; }
@@ -132,29 +138,37 @@ main {
 			font-family: 'Menlo', monospace;
 			font-size: 11px;
 			line-height: 11px;
-			color: #01F952;
+			color: var(--green);
 			position: relative;
 			
 			td {
 				
 				padding: 2px 4px;
 				
-				&:last-child { color: $iconres; }
+				&:last-child { color: var(--purple); }
 			}
 		}
 		
-		.preview {
+		#preview-box {
 			
-			width: 128px;
-			height: 128px;
-			
+			width: 138px;
+			height: 138px;
+			padding: 5px;
 			position: absolute;
-			bottom: 60px;
-			left: 54px;
+			bottom: 50px;
+			left: 49px;
+			border-radius: 4px;
+			
+			.preview {
+				
+				width: 128px;
+				height: 128px;
+			}
 			
 			&.active {
-				
-				outline: 1px dashed rgba($focus, .5);
+					
+				background: rgba(0,0,0,.06);
+				box-shadow: inset 0 1px 0 rgba(0,0,0,.08);
 			}
 		}
 		
@@ -178,36 +192,28 @@ main {
 			
 			display: block;
 			width: 196px;
-			height: 30px;
+			height: 21px;
 			position: absolute;
 			bottom: 0;
-			
-			background: $background;
-			border: 1px solid rgba($text , .3);
-			border-radius: 4px;
-			font-size: 14px;
-			color: $text;
-			font-weight: 500;
-			text-align: center;
-			
-			transition: all .15s ease-in-out;
-			
-			&[disabled] { 	color: rgba($text , .3); }
-			
-			&:hover:not([disabled]) { background-color: rgba($text, .1); }
-			
-			&:active:not([disabled]) {
-				
-				background-color: darken($background, 3%);
-				box-shadow: inset 0 2px 4px darken($background, 6%);
-				outline: none;
-			}
 		}
 	}
 }
 
-:focus {
+
+[data-theme^="dark"] {
 	
-	outline: none;
-	box-shadow: 0 0 1px 2px rgba($focus, .75);
+	main {
+		
+		.form {
+			
+			#preview-box {
+			
+				&.active {
+					
+					background: rgba(255,255,255,.06);
+					border: 1px solid rgba(255,255,255,.08);
+				}
+			}
+		}
+	}
 }

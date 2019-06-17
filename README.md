@@ -23,12 +23,10 @@ Appicionset Generator has support for the Touch Bar
 
 [node.js / npm](https://www.npmjs.com/get-npm)
 
-To modify a/o build this project you will need to install electron and electron -packager and electron-rebuild
+To modify a/o build this project you will need to install electron-packager
 
 ```shell
-npm install electron -g --save-exact
 npm install electron-packager -g
-npm install electron-rebuild -g
 ```
 
 ## Usage
@@ -40,7 +38,7 @@ npm install
 
 then run
 ```shell
-electron-rebuild
+npm run rebuild
 ```
 
 To modify the `html` / `css` / `js` run:
@@ -50,7 +48,7 @@ gulp watch
 
 To test the app run:
 ```shell
-electron .
+npm start
 ```
 
 To update all files prior to packaging run:

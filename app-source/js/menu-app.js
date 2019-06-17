@@ -80,7 +80,7 @@ const template = [
 			}
 		]  
 	},
-	/* {
+	{
 		label: 'View',
 		submenu:
 		[
@@ -99,7 +99,7 @@ const template = [
 				}
 			}
 		]
-	}, */
+	},
 	{
 		role: 'window',
 		submenu:

@@ -52,20 +52,23 @@ function createWindow() {
 	
 	win = new BrowserWindow({
 		show: false,
-		titleBarStyle: 'hiddenInset',
+		titleBarStyle: 'hidden',
 		x: x,
 		y: y,
 		width: 820,
 		height: 620,
 		transparent: true,
-		frame: false,
 		resizable: false,
 		maximizable: false,
 		fullscreen: false,
+		webPreferences: {
+			//{ devTools: false },
+			preload: path.join(__dirname, './preload.min.js')
+		},
 		icon: path.join(__dirname, '../assets/icon/Icon.icns')
 	})
 	
-	win.setSheetOffset( 32 )
+	win.setSheetOffset( 23 )
 	
 	function saveWindowBounds() {
 		
@@ -421,12 +424,15 @@ app.on( 'open-prefs', (message) => {
 		width: 360,
 		minWidth: 360,
 		maxWidth: 360,
-		height: 230,
-		minHeight: 230,
+		height: 210,
+		minHeight: 210,
 		resizable: false,
 		show: false,
-		backgroundColor: '#031320',
-		webPreferences: { devTools: false }
+		transparent: true,
+		webPreferences: {
+			//{ devTools: false },
+			preload: path.join(__dirname, './preload.min.js')
+		}
 	})
 	
 	modal.loadURL(url.format ({ 

@@ -4,6 +4,9 @@
 	<meta charset="utf-8">
 	<title>Appiconset Generator</title>
 	<link rel="stylesheet" type="text/css" href="../css/app.min.css" media="all">
+	<script>
+		require( '../js/theme.min' )
+	</script>
 </head>
 <body>
 	<main>
@@ -18,8 +21,10 @@
 		</section>
 		
 		<div class="form">
-			<canvas id="preview" class="preview" width="256" height="256"></canvas>
-			<button type="submit" id="generate" disabled>Generate Appiconset</button>
+			<div id="preview-box">
+				<canvas id="preview" class="preview" width="256" height="256"></canvas>
+			</div>
+			<button type="submit" id="generate" class="button" disabled>Generate Appiconset</button>
 		</div>
 	</main>
 	<script>

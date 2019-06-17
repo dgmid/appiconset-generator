@@ -17,8 +17,6 @@ const 	mainCanvas 		= document.getElementById( 'icon' ),
 		previewContext 	= previewCanvas.getContext( '2d' ),
 		dropzone 		= $( '#dropzone' )
 
-let modal
-
 
 
 //note(@duncanmid): based on: fitImageOn by @sdqali
@@ -72,7 +70,7 @@ function clearCanvas() {
 	previewContext.clearRect(0, 0, 256, 256)
 	
 	$('#size').removeClass().empty()
-	$('#preview').removeClass('active')
+	$('#preview-box').removeClass('active')
 }
 
 
@@ -207,7 +205,7 @@ ipcRenderer.on('preview', (event, message) => {
 		
 		fitImageOn( previewCanvas, previewContext, previewObj )
 		
-		$('#preview').addClass('active')
+		$('#preview-box').addClass('active')
 		$('#generate').prop('disabled', false)
 	}
 })
@@ -230,34 +228,6 @@ $('#generate').click( function() {
 	
 	ipcRenderer.send('generate', $('input[name="type"]:checked').data( 'name' ) )
 })
-
-
-
-//note(@duncanmid): modal
-
-/* function openModal( url, width, height, resize ) {
-	
-	modal = new remote.BrowserWindow({
-		
-			parent: remote.getCurrentWindow(),
-			modal: true,
-			width: width,
-			minWidth: width,
-			maxWidth: width,
-			height: height,
-			minHeight: height,
-			resizable: resize,
-			show: false,
-			backgroundColor: '#031320'
-		})
-		
-	modal.loadURL( url )
-	
-	modal.once('ready-to-show', () => {
-		
-		modal.show()
-	})
-} */
 
 
 
