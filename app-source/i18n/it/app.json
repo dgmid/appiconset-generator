@@ -1,0 +1,24 @@
+{
+  "header": "Appiconset Generator",
+  "button": {
+    "generate": "Genera Appiconset"
+  },
+  "label": {
+    "size": "dimensioni originali"
+  },
+  "dialog": {
+    "size": {
+      "message": "Immagine troppo piccola",
+      "detail": "Per ottenere i migliori risultati l’immagine deve essere almeno\n1024 x 1024px"
+    },
+    "open": {
+      "button": "Scegli immagine",
+      "message": "Il file deve essere uno dei seguenti tipi: .png, .jpg, .gif, .bmp"
+    },
+    "error": {
+      "message": "Formato di file non valido",
+      "detail": "{{message}} non è un file immagine valido.\nIl file deve essere uno dei seguenti tipi: .png, .jpg, .gif, .bmp",
+      "ok": "OK"
+    }
+  }
+}

@@ -1,13 +1,25 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>About Appiconset Generator</title><link rel="stylesheet" type="text/css" href="../css/about.min.css" media="all"><script>require( '../js/theme.min' )</script></head><body><header></header><main><figure><img draggable="false" src="../assets/icon/icon.png" width="128" height="128" alt=""></figure><h1><span id="productName"></span> <span id="version"></span></h1><p id="description"></p></main><footer><table><tfoot><tr><td colspan="2"><button id="info" class="button focus" role="button">more info</button></td></tr></tfoot><tbody><tr><th>Author:</th><td id="author"></td></tr><tr><th>License</th><td id="license"></td></tr></tbody></table></footer><script>window.$ = window.jQuery = require( 'jquery' )
+<!doctype html><html lang=""><head><meta charset="utf-8"><title>About Appiconset Generator</title><link rel="stylesheet" type="text/css" href="../css/about.min.css" media="all"><script>require( '../js/theme.min' )</script></head><body><header></header><main><figure><img draggable="false" src="../assets/icon/icon.png" width="128" height="128" alt=""></figure><h1><span id="productName"></span> <span id="version"></span></h1><p id="description" data-i18n="about:description">A utility app for generating Apple appiconsets.</p></main><footer><table><tfoot><tr><td colspan="2"><button id="info" class="button focus" role="button" data-i18n="about:more">more info</button></td></tr></tfoot><tbody><tr><th data-i18n="about:author">Author:</th><td id="author"></td></tr><tr><th data-i18n="about:license">License:</th><td id="license"></td></tr></tbody></table></footer><script>const i18n = require( '../js/i18n.min' )
+		window.$ = window.jQuery = require( 'jquery' )
 		const shell = require( 'electron' )
-				
+		const jqueryI18next = require( 'jquery-i18next' )
+		
+		jqueryI18next.init(i18n, $)
+		
+		
+		//note(@duncanmid): set lang & localize strings
+		
+		$('html').attr('lang', i18n.language)
+		$('#description').localize()
+		$('th').localize()
+		$('#info').localize()
+		
+		
 		$.getJSON('../../package.json', function(json) {
 			
 			var packageData = json
 			
 			$('#productName').html( packageData['productName'] )
 			$('#version').html( 'v ' + packageData['version'] )
-			$('#description').html( packageData['description'] )
 			$('#author').html( packageData['author']['name'] )
 			$('#license').html( packageData['license'] )
 			

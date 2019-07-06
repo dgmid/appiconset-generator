@@ -1,6 +1,10 @@
 'use strict'
 
+const i18n = require( './i18n.min' )
+
 window.$ = window.jQuery = require( 'jquery' )
+const jqueryI18next = require( 'jquery-i18next' )
+jqueryI18next.init(i18n, $)
 
 const path 				= require( 'path' )
 const { app } 			= require( 'electron' ).remote
@@ -79,7 +83,8 @@ function clearCanvas() {
 function loadImage( src ) {
 
 	let imageObj = new Image(),
-		size = $('#size')
+		size = $('#size'),
+		label = i18n.t('app:label.size', 'original size')
 	
 	imageObj.src = src
 	
@@ -87,7 +92,7 @@ function loadImage( src ) {
 		
 		fitImageOn( mainCanvas, mainContext, imageObj )
 		
-		size.html(`original size: ${imageObj.width} × ${imageObj.height}px`)
+		size.html(`${label}: ${imageObj.width} × ${imageObj.height}px`)
 		
 		if( imageObj.width + imageObj.height < 2048 ) {
 			
@@ -234,6 +239,14 @@ $('#generate').click( function() {
 //note(@duncanmid): docready
 
 $( document ).ready( function() {
+	
+	
+	//note(@duncanmid): set lang & localize strings
+	
+	$('html').attr('lang', i18n.language)
+	$('h1').localize()
+	$('#generate').localize()
+	
 	
 	let active = store.get( 'iconType' )
 	

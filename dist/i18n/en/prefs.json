@@ -1,0 +1,25 @@
+{
+  "touchbar": {
+    "interpolation": {
+      "nearest": "Nearest Neighbour",
+      "cubic": "Cubic",
+      "mitchell": "Mitchell",
+      "lanczos2": "Lanczos a=2",
+      "lanczos3": "Lanczos a=3"
+    }
+  },
+  "button": {
+    "close": "Close"
+  },
+  "header": "Preferences",
+  "select": {
+    "label": "Image interpolation algorithm"
+  },
+  "interpolation": {
+    "nearest": "Nearest Neighbour",
+    "cubic": "Cubic (Catmull–Rom spline)",
+    "mitchell": "Mitchell-Netravali spline",
+    "lanczos2": "Lanczos a=2",
+    "lanczos3": "Lanczos a=3"
+  }
+}

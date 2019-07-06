@@ -1,0 +1,28 @@
+{
+  "app": {
+    "about": "Informazioni su",
+    "preferences": "Preferenze…"
+  },
+  "icon": {
+    "icon": "Icone",
+    "open": "Apri immagine…",
+    "delete": "Elimina immagine",
+    "generate": "Genera icona"
+  },
+  "view": {
+    "view": "Vista",
+    "reload": "Ricaricare",
+    "developer": "Attiva/disattiva Developer Tools"
+  },
+  "window": {
+    "window": "Finestra",
+    "close": "Chiudi",
+    "minimize": "Riduci a icona",
+    "zoom": "Zoom",
+    "front": "Porta tutto in primo piano"
+  },
+  "help": {
+    "help": "Aiuto",
+    "homepage": "Homepage del Appiconset Generator"
+  }
+}

@@ -1,14 +1,43 @@
 'use strict'
 
+const i18n = require( 'i18next' )
+const i18nextBackend = require( 'i18next-sync-fs-backend' )
+const LanguageDetector = require( 'i18next-electron-language-detector' )
+const path = require( 'path' )
+
+const i18nextOptions = {
+
+	fallbackLng: 'en',
+	debug: false,
+	ns: [
+		'app',
+		'menu',
+		'prefs',
+		'about'
+		],
+	defaultNS: 'app',
+	backend:{
+		loadPath: path.join(__dirname, '../i18n/{{lng}}/{{ns}}.json'),
+		addPath: path.join(__dirname, '../i18n/{{lng}}/{{ns}}.missing.json'),
+	jsonIndent: 2,
+	},
+	saveMissing: true,
+	initImmediate: true
+}
+
+i18n.use(LanguageDetector).use(i18nextBackend)
+i18n.init(i18nextOptions)
+
+
+
 const { app, BrowserWindow, TouchBar, ipcMain } = require( 'electron' )
 const { TouchBarButton, TouchBarSpacer, TouchBarSegmentedControl } = TouchBar
 
 const url 		= require( 'url' ) 
-const path 		= require( 'path' )
 const fs 		= require( 'fs-extra' )
-const sharp 		= require( 'electron-sharp' )
+const sharp 	= require( 'electron-sharp' )
 const dialog 	= require( 'electron' ).dialog
-const Store 		= require( 'electron-store' )
+const Store 	= require( 'electron-store' )
 const util 		= require( 'util' )
 const loadJSON 	= require( 'load-json-file' )
 
@@ -62,7 +91,7 @@ function createWindow() {
 		maximizable: false,
 		fullscreen: false,
 		webPreferences: {
-			//{ devTools: false },
+			//devTools: false,
 			preload: path.join(__dirname, './preload.min.js')
 		},
 		icon: path.join(__dirname, '../assets/icon/Icon.icns')
@@ -98,8 +127,8 @@ function createWindow() {
 	})
 	
 	require( './menu-app.min' )
-	
 }
+
 
 app.on( 'ready', createWindow )
 
@@ -123,14 +152,14 @@ app.on( 'open', ( message ) => {
 	dialog.showOpenDialog(win, {
 			
 			defaultPath: app.getPath('home'),
-			buttonLabel: 'Choose Image',
+			buttonLabel: i18n.t('app:dialog.open.button', 'Choose Image'),
 			filters: [
 				{ name: 'Images', extensions: ['png', 'jpg', 'gif', 'bmp'] },
 			],
 			properties: [
 				'openFile'
 			],
-			message: 'The file must be one of the following types: .png, .jpg, .gif, .bmp'
+			message: i18n.t('app:dialog.open.message', 'The file must be one of the following types: .png, .jpg, .gif, .bmp')
 		},		
 		
 		loadImage
@@ -186,7 +215,7 @@ ipcMain.on( 'touchbar', ( event, message ) => {
 	
 		new TouchBarButton({
 			
-			label: 'Generate Appiconset',
+			label: i18n.t('app:button.generate', 'Generate Appiconset'),
 			backgroundColor: '#3B88FD',
 			click: () => {
 				
@@ -211,8 +240,8 @@ ipcMain.on( 'size', ( event, message ) => {
 	
 	dialog.showMessageBox( win, {
 							type: 'info',
-							message: `Image too small`,
-							detail: `For best results the image must be at least\n1024 x 1024px`,
+							message: i18n.t('app:dialog.size.message', 'Image too small'),
+							detail: i18n.t('app:dialog.size.detail', 'For best results the image must be at least\n1024 x 1024px'),
 							buttons: ['OK']
 						})
 })
@@ -254,9 +283,9 @@ ipcMain.on( 'invalid', ( event, message ) => {
 	
 	dialog.showMessageBox( win, {
 							type: 'error',
-							message: `Invalid file format`,
-							detail: `${message} is not a valid image file.\nThe file must be one of the following types: .png, .jpg, .gif, .bmp`,
-							buttons: ['OK']
+							message: i18n.t('app:dialog.error.message', 'Invalid file format'),
+							detail: i18n.t('app:dialog.error.detail', '{{message}} is not a valid image file.\nThe file must be one of the following types: .png, .jpg, .gif, .bmp'),
+							buttons: [i18n.t('app:dialog.error.ok', 'OK')]
 						})
 })
 
@@ -387,11 +416,11 @@ app.on( 'open-prefs', (message) => {
 		segmentStyle: 'separated',
 		mode: 'single',
 		segments: [
-			{ label: 'Nearest Neighbour' },
-			{ label: 'Cubic' },
-			{ label: 'Mitchell' },
-			{ label: 'Lanczos a=2' },
-			{ label: 'Lanczos a=3' }
+			{ label: i18n.t('prefs:touchbar.interpolation.nearest', 'Nearest Neighbour') },
+			{ label: i18n.t('prefs:touchbar.interpolation.cubic', 'Cubic') },
+			{ label: i18n.t('prefs:touchbar.interpolation.mitchell', 'Mitchell') },
+			{ label: i18n.t('prefs:touchbar.interpolation.lanczos2', 'Lanczos a=2') },
+			{ label: i18n.t('prefs:touchbar.interpolation.lanczos3', 'Lanczos a=3') }
 		],
 		selectedIndex: ind,
 		change: ( selectedIndex ) => {
@@ -406,7 +435,7 @@ app.on( 'open-prefs', (message) => {
 		
 		new TouchBarButton({
 			
-			label: 'Close',
+			label: i18n.t('prefs:button.close', 'Close'),
 			backgroundColor: '#3B88FD',
 			click: () => {
 				
@@ -430,7 +459,7 @@ app.on( 'open-prefs', (message) => {
 		show: false,
 		transparent: true,
 		webPreferences: {
-			//{ devTools: false },
+			//devTools: false,
 			preload: path.join(__dirname, './preload.min.js')
 		}
 	})

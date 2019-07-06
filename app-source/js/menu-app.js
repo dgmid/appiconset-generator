@@ -1,11 +1,11 @@
 'use strict'
 
-const electron 			= require('electron')
-const {Menu, shell} 		= require('electron')
+const i18n 				= require( './i18n.min' )
+const electron 			= require( 'electron' )
+const {Menu, shell} 	= require( 'electron' )
 const app 				= electron.app
-const BrowserWindow 		= electron.BrowserWindow
 const name 				= app.getName()
-var about 				= require('./about.min')
+const about 			= require( './about.min' )
 
 
 
@@ -14,14 +14,14 @@ const template = [
 		label: name,
 		submenu: [
 			{
-				label: 'About ' + name,
+				label: i18n.t('menu:app.about', 'About') + ` ${name}`,
 				click() { about.createAbout() }
 			},
 			{
 				type: 'separator'
 			},
 			{
-				label: 'Preferences…',
+				label: i18n.t('menu:app.preferences', 'Preferences…'),
 				accelerator: 'Command+,',
 				click () { app.emit('open-prefs', '') }
 			},
@@ -53,16 +53,16 @@ const template = [
 		]
 	},
 	{
-		label: 'Icon',
+		label: i18n.t('menu:icon.icon', 'Icon'),
 		submenu:
 		[
 			{
-				label: 'Open image…',
+				label: i18n.t('menu:icon.open', 'Open image…'),
 				accelerator: 'Command+O',
 				click () { app.emit('open', 'open') }
 			},
 			{
-				label: 'Delete image',
+				label: i18n.t('menu:icon.delete', 'Delete image'),
 				accelerator: 'Command+D',
 				click (item, focusedWindow) {
 					if(focusedWindow) focusedWindow.webContents.send('delete', 'delete')
@@ -72,7 +72,7 @@ const template = [
 				type: 'separator'
 			},
 			{
-				label: 'Generate Icon',
+				label: i18n.t('menu:icon.generate', 'Generate Icon'),
 				accelerator: 'Command+G',
 				click (item, focusedWindow) {
 					if(focusedWindow) focusedWindow.webContents.send('menu-generate', 'generate')
@@ -81,18 +81,18 @@ const template = [
 		]  
 	},
 	{
-		label: 'View',
+		label: i18n.t('menu:view.view', 'View'),
 		submenu:
 		[
 			{
-				label: 'Reload',
+				label: i18n.t('menu:view.reload', 'Reload'),
 				accelerator: 'CmdOrCtrl+R',
 				click (item, focusedWindow) {
 					if (focusedWindow) focusedWindow.reload()
 				}
 			},
 			{
-				label: 'Toggle Developer Tools',
+				label: i18n.t('menu:view.developer', 'Toggle Developer Tools'),
 				accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
 				click (item, focusedWindow) {
 					if (focusedWindow) focusedWindow.webContents.toggleDevTools()
@@ -101,39 +101,39 @@ const template = [
 		]
 	},
 	{
-		role: 'window',
+		role: i18n.t('menu:window.window', 'window'),
 		submenu:
 		[
 			{
-				label: 'Close',
+				label: i18n.t('menu:window.close', 'Close'),
 				accelerator: 'CmdOrCtrl+W',
 				role: 'close'
 			},
 			{
-				label: 'Minimize',
+				label: i18n.t('menu:window.minimize', 'Minimize'),
 				accelerator: 'CmdOrCtrl+M',
 				role: 'minimize'
 			},
 			{
-				label: 'Zoom',
+				label: i18n.t('menu:window.zoom', 'Zoom'),
 				role: 'zoom'
 			},
 			{
 				type: 'separator'
 			},
 			{
-				label: 'Bring All to Front',
+				label: i18n.t('menu:window.front', 'Bring All to Front'),
 				role: 'front'
 			}
 		]
 	},
 	{
-		role: 'help',
+		role: i18n.t('menu:help.help', 'help'),
 		submenu:
 		[
 			{
-				label: 'midwinter-dg.com',
-				click () { require('electron').shell.openExternal('https://www.midwinter-dg.com') }
+				label: i18n.t('menu:help.homepage', 'Appiconset Generator Homepage'),
+				click () { require('electron').shell.openExternal('https://www.midwinter-dg.com/mac-apps/appiconset-generator.html') }
 			}
 		]
 	}

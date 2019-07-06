@@ -1,0 +1,28 @@
+{
+  "app": {
+    "about": "About",
+    "preferences": "Preferences…"
+  },
+  "icon": {
+    "icon": "Icon",
+    "open": "Open image…",
+    "delete": "Delete image",
+    "generate": "Generate Icon"
+  },
+  "view": {
+    "view": "View",
+    "reload": "Reload",
+    "developer": "Toggle Developer Tools"
+  },
+  "window": {
+    "window": "window",
+    "close": "Close",
+    "minimize": "Minimize",
+    "zoom": "Zoom",
+    "front": "Bring All to Front"
+  },
+  "help": {
+    "help": "help",
+    "homepage": "Appiconset Generator Homepage"
+  }
+}
